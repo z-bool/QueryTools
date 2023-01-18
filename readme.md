@@ -41,7 +41,7 @@ python start.py -f domains.txt    # 自定义文件domains.txt
 
 这里还设置了一个延时1-3秒，嫌速度慢的可以自己删。
 
-![image-20230118195736697](https://cdn.jsdelivr.net/gh/z-bool/images@master/img/image-20230118195736697.png)
+
 
 设计之初是为了区分域名和IP，后期修复。临时解决方案:'全局替换为","{全局替换为{,"}全局替换为}。
 
