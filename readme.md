@@ -33,6 +33,18 @@ python start.py -f domains.txt    # 自定义文件domains.txt
 
 测试结果会在终端打印以及输出一份`data.json` 在当前目录下。
 
+![image-20230118190512036](https://cdn.jsdelivr.net/gh/z-bool/images@master/img/image-20230118190512036.png)
+
+这是为了限制速度导致接口在多线程下被迅速封禁的，如果本地就全局了变化的代理的可以开放线程锁，位置在`tools/task.py` 中的该位置：
+
+![image-20230118190801082](https://cdn.jsdelivr.net/gh/z-bool/images@master/img/image-20230118190801082.png)
+
+这里还设置了一个延时1-3秒，嫌速度慢的可以自己删。
+
+![image-20230118193656522](C:/Users/root/AppData/Roaming/Typora/typora-user-images/image-20230118193656522.png)
+
+结果处理上没有做很好，大家将就用。
+
 <div id="notice"></div>
 
 ### 注意事项

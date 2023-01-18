@@ -23,7 +23,7 @@ def cmd_input():
         else:
             print("不是一个txt文件噢")
     except:
-        print("你的某个步骤错了...")
+        print("某个地方似乎出现了问题,请重试...")
 
 
 cmd_input()

@@ -6,8 +6,8 @@
 from queue import Queue
 from threading import Thread, Lock
 
-from tools.func import open_file_read, is_domain, log_warning, str_quote, open_file_json, fHideMid
-from tools.spider import SpiderTask
+from tools.func import open_file_read, is_domain, log_warning, str_quote, open_file_json, time_sleep
+from tools.spider import SpiderTask, SpiderCollectionRecord
 from tools.slice import ArraySlice
 
 mutex = Lock()
@@ -34,9 +34,19 @@ class B(Thread):
         while True:
             data = self.queue.get()
             if is_domain(data):
-                C(data).start()
+                mutex.acquire()
+                c = C(data)
+                c.start()
+                # c.join()
+                time_sleep(1,3)
+                mutex.release()
             else:
-                D(data).start()
+                mutex.acquire()
+                d = D(data)
+                d.start()
+                time_sleep(1,3)
+                # d.join()
+                mutex.release()
             self.queue.task_done()
             if self.queue.empty():
                 break
@@ -50,7 +60,8 @@ class C(Thread):
 
     def run(self) -> None:
         # with mutex:
-        data = SpiderTask().record_inquiry(self.domain).record
+        # data = SpiderTask().record_inquiry(self.domain).record
+        data = SpiderCollectionRecord().get_record(self.domain).record
         open_file_json(data)
         log_warning(f"{self.getName()} {data}")
 
@@ -70,7 +81,8 @@ class D(Thread):
         if str_quote(results.get('address')[0:2]) in ArraySlice:
             if results.get("domain_list"):
                 for domain in results.get("domain_list").domain_lists:
-                        results['records'] = SpiderTask().record_inquiry(domain)
+                    # results['records'] = SpiderTask().record_inquiry(domain)
+                    results['records'] = SpiderCollectionRecord().get_record(domain)
         else:
             if results.get("domain_list"):
                 for domain in results.get("domain_list").domain_lists:

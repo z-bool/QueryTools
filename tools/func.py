@@ -3,6 +3,7 @@
 # @Time    : 2023/1/11 3:15
 # @IDE: PyCharm
 import json
+import random
 import re
 import time
 from functools import wraps
@@ -42,6 +43,9 @@ def is_domain(domain) -> bool:
         return True
     else:
         return False
+
+
+is_domain("")
 
 
 def is_ip(ip) -> bool:
@@ -84,8 +88,22 @@ def open_file_read(file):
 
 def open_file_json(data):
     with open("data.json", 'a', encoding='utf-8') as f:
-        f.write(json.dumps(data))
+        f.write(json.dumps(data, ensure_ascii=False))
         f.write(",\n")
+
+
+def get_alexa_token(html):
+    com = re.compile("ICP_home_load\\('#ICP',((?:.|\n)*?)\\)")
+    resp = re.findall(com, html)
+    if len(resp):
+        resp = resp[0].replace("{", '').replace("}", '').strip()
+        comm = re.compile("token : '(.*?)',")
+        token = re.findall(comm, resp)
+        return token[0]
+
+
+def time_sleep(start: int = 1, end: int = 10):
+    time.sleep(random.randint(start, end))
 
 
 def fHideMid(str, count=6, fix='*'):
@@ -107,15 +125,15 @@ def fHideMid(str, count=6, fix='*'):
                     ret_str = str[:int(str_len / 2 - count / 2)] + count * fix + str[int(str_len / 2 + count / 2):]
                 else:
                     ret_str = str[:int((str_len + 1) / 2 - count / 2)] + count * fix + str[int((
-                                                                                                           str_len + 1) / 2 + count / 2):]
+                                                                                                       str_len + 1) / 2 + count / 2):]
             else:
                 if str_len % 2 == 0:
                     ret_str = str[:int(str_len / 2 - (count - 1) / 2)] + count * fix + str[int(str_len / 2 + (
-                                count + 1) / 2):]
+                            count + 1) / 2):]
                 else:
                     ret_str = str[:int((str_len + 1) / 2 - (count + 1) / 2)] + count * fix + str[
                                                                                              int((str_len + 1) / 2 + (
-                                                                                                         count - 1) / 2):]
+                                                                                                     count - 1) / 2):]
         else:
             ret_str = str[0] + fix * (str_len - 2) + str[-1]
 
