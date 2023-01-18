@@ -43,7 +43,7 @@ python start.py -f domains.txt    # 自定义文件domains.txt
 
 ![image-20230118193656522](C:/Users/root/AppData/Roaming/Typora/typora-user-images/image-20230118193656522.png)
 
-设计之初是为了区分域名和IP，后期修复。
+设计之初是为了区分域名和IP，后期修复。临时解决方案:'全局替换为","{全局替换为{,"}全局替换为}。
 
 <div id="notice"></div>
 
