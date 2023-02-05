@@ -1,6 +1,6 @@
 
 
-# QueryTools - 春节版
+# QueryTools - 重构版
 
 **郑重声明：文中所涉及的技术、思路和工具仅供以安全为目的的学习交流使用，<u>任何人不得将其用于非法用途以及盈利等目的，否则后果自行承担</u>** 。
 
@@ -31,36 +31,27 @@ python start.py                   # 使用默认文件text.txt
 python start.py -f domains.txt    # 自定义文件domains.txt
 ```
 
-测试结果会在终端打印以及输出一份`data.json` 在当前目录下。
+测试结果会在终端打印以及输出一份`result.csv` 在当前目录下。
 
-![image-20230118190512036](https://cdn.jsdelivr.net/gh/z-bool/images@master/img/image-20230118190512036.png)
+![image-20230205122621572](https://cdn.jsdelivr.net/gh/z-bool/images@master/img/image-20230205122621572.png)
 
-这是为了限制速度导致接口在多线程下被迅速封禁的，如果本地就全局了变化的代理的可以开放线程锁，位置在`tools/task.py` 中的该位置：
+![image-20230205122727443](https://cdn.jsdelivr.net/gh/z-bool/images@master/img/image-20230205122727443.png)
 
-**(这里有个注意点：权重接口查询会有频繁情况，频繁时查询结果会显示为None，所以大家如果权重结果不出的话，可能会有两种情况：1.接口没有收录这个权重信息 2. 接口访问速度太快导致接口频繁，显示结果为None，所以查询为空)** 
+![image-20230205122738752](https://cdn.jsdelivr.net/gh/z-bool/images@master/img/image-20230205122738752.png)
 
-![image-20230118190801082](https://cdn.jsdelivr.net/gh/z-bool/images@master/img/image-20230118190801082.png)
-
-这里还设置了一个延时1-3秒，嫌速度慢的可以自己删。
-
-![image-20230118202559927](https://cdn.jsdelivr.net/gh/z-bool/images@master/img/image-20230118202559927.png)
-
-设计之初是为了区分域名和IP，后期修复。临时解决方案:'全局替换为","{全局替换为{,"}全局替换为}。
+![image-20230205122749648](https://cdn.jsdelivr.net/gh/z-bool/images@master/img/image-20230205122749648.png)
 
 <div id="notice"></div>
 
 ### 注意事项
 
-- 本项目是通过多个ICP接口批量查询得到，目前没有设置代理，可能会存在IP拒绝连接。虽然为了缓解这一情况QueryTools通过多个接口轮询以及失败后重新入队的方式来解决，但是如果数据量多大的话建议还是分割处理。
-- JSON处理结果可能会因为中间的异常导出部分出错，可以用文本全局替换的方式处理。
-- 爬取的时候不要挂代理，把Clash这些记得都关掉再启动，几千条数据一个IP就OK，不然你会收获一大堆报错。
-- 使用前先将data.json文件删除
+- 已经完全重构了，没啥注意事项，里面Request Error都做过重新入队处理，不必担心，这次把速度降下来了，大家耐心多等等。
 
 <div id="communicate"></div>
 
 ### 技术交流
 
-<img src="https://cdn.jsdelivr.net/gh/z-bool/images@master/img/image-20230116172606976.png" alt="交流群" style="zoom: 80%;" align="left" /><img src="https://cdn.jsdelivr.net/gh/z-bool/images@master/img/qrcode_for_gh_c90beef1e2e7_258.jpg" alt="阿呆攻防公众号" style="zoom:100%;" />![image-20230116173105809](https://cdn.jsdelivr.net/gh/z-bool/images@master/img/image-20230116173105809.png)
+<img src="https://cdn.jsdelivr.net/gh/z-bool/images@master/img/qrcode_for_gh_c90beef1e2e7_258.jpg" alt="阿呆攻防公众号" style="zoom:100%;" />![image-20230116173105809](https://cdn.jsdelivr.net/gh/z-bool/images@master/img/image-20230116173105809.png)
 
 
 

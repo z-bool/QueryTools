@@ -1,29 +1,41 @@
-# -*- coding: utf-8 -*-
-# @Author  : iceberg 
-# @Time    : 2023/1/12 3:32
-# @IDE: PyCharm
-
-import argparse
-
-from tools.task import thread_run
-from tools.win import window
+from spider.RunTask import main, tryme
+from log.outputlog import Log
+import time
+import click
 
 
-@window
-def cmd_input():
-    parser = argparse.ArgumentParser(description="Demo of argparse")
-    # python query.py -f text.txt
-    # python query.py -f D:\QueryIpTools\text.txt
-    parser.add_argument("-f", "--file", default="text.txt")
-    args = parser.parse_args()
-    file = args.file
-    try:
-        if file.endswith(".txt"):
-            thread_run(file)
-        else:
-            print("不是一个txt文件噢")
-    except:
-        print("某个地方似乎出现了问题,请重试...")
+BANNER = """
+                   ,---,         ,---,         ,---,        
+                  '  .' \       '  .' \       '  .' \       
+                 /  ;    '.    /  ;    '.    /  ;    '.     
+                :  :       \  :  :       \  :  :       \    
+                :  |   /\   \ :  |   /\   \ :  |   /\   \   
+                |  :  ' ;.   :|  :  ' ;.   :|  :  ' ;.   :  
+                |  |  ;/  \   \  |  ;/  \   \  |  ;/  \   \ 
+                '  :  | \  \ ,'  :  | \  \ ,'  :  | \  \ ,' 
+                |  |  '  '--' |  |  '  '--' |  |  '  '--'   
+                |  :  :       |  :  :       |  :  :         
+                |  | ,'       |  | ,'       |  | ,'         
+                `--''         `--''         `--''     
+                
+            重点声明:
+                QueryTools: 安全工具
+                    1.接口对请求频率有限制,查询效率较慢,请耐心等待.
+                    2.QueryIpTools工具仅用于技术交流学习,请勿用于违法用途,否则与本人无关.
+                    3.QueryIpTools工具仅用于技术交流学习,不得用于商业用途,仅做交流学习,仅作技术交流学习.
+                    4.QueryIpTools种使用到的接口均为公开接口
+                
+"""
 
 
-cmd_input()
+@tryme.try_
+@click.command()
+@click.option("--file", default="text.txt", help="-- file xxx.txt")
+def start(file):
+    time.sleep(3)
+    Log.info(BANNER)
+    main(file)
+
+
+if __name__ == '__main__':
+    start()
