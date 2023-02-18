@@ -13,9 +13,6 @@ paths = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 class FuncTools:
     @staticmethod
     def is_domain(domain):
-        """
-        判断是否是域名(domain)
-        """
         pattern = re.compile(
             r'^(([a-zA-Z]{1})|([a-zA-Z]{1}[a-zA-Z]{1})|'
             r'([a-zA-Z]{1}[0-9]{1})|([0-9]{1}[a-zA-Z]{1})|'
@@ -29,9 +26,6 @@ class FuncTools:
 
     @staticmethod
     def is_ip(ip):
-        """
-        判断是否是IP
-        """
         regular = re.compile(
             '^((25[0-5]|2[0-4]\d|[01]?\d\d?)\.){3}(25[0-5]|2[0-4]\d|[01]?\d\d?)$')
         if regular.match(ip):
@@ -39,9 +33,6 @@ class FuncTools:
 
     @staticmethod
     def decode(s):
-        """
-        编码
-        """
         return quote(s)
 
     @staticmethod
@@ -89,11 +80,6 @@ class FuncTools:
 
     @staticmethod
     def readfile(file):
-        """
-        文件读取,去重域名
-        :param file:
-        :return: [domain]
-        """
         lines = []
         if file:
             with open(

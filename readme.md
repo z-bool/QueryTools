@@ -13,8 +13,7 @@
 ### 依赖安装
 
 ```bash
-pip install -r requirements.txt # 正常这句就OK，成功安装所有依赖，但是会有fake-useragent报错的
-pip install ./lib/fake-useragent-1.1.1.tar.gz # fake-useragent报错安装不上的用安装包安装
+pip install -r requirements.txt # 正常这句就OK，成功安装所有依赖
 ```
 
 如果在使用安装包安装还有问题的话可以在群里提问或私聊。
@@ -27,8 +26,7 @@ pip install ./lib/fake-useragent-1.1.1.tar.gz # fake-useragent报错安装不上
 
 ```text
 # 由于是py脚本所以不限制系统
-python start.py                   # 使用默认文件text.txt
-python start.py -f domains.txt    # 自定义文件domains.txt
+python start.py --file text.txt    # 自定义文件text.txt
 ```
 
 测试结果会在终端打印以及输出一份`result.csv` 在当前目录下。
@@ -45,7 +43,7 @@ python start.py -f domains.txt    # 自定义文件domains.txt
 
 ### 注意事项
 
-- 已经完全重构了，没啥注意事项，里面Request Error都做过重新入队处理，不必担心，这次把速度降下来了，大家耐心多等等。
+- 2023.2.18更新：修复IP定位接口误报问题，已更换百度接口。在资产txt中不能为纯IP资产，若无域名可随便加入一个域名使域名队列不空即可。
 
 <div id="communicate"></div>
 

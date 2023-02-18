@@ -1,10 +1,10 @@
-from fake_useragent import UserAgent
 from parsel import Selector
 import requests
 import random
 import time
 
 from mode.singleton import Singleton
+from util.UsA import User_Agent_Pool
 from log.outputlog import Log
 
 
@@ -105,5 +105,6 @@ class Requests:
         }
 
     def __init(self):
-        self.user_agent = random.choice([UserAgent().chrome])
+        # self.user_agent = random.choice([UserAgent().chrome])
+        self.user_agent = random.choice(User_Agent_Pool)
         self.response = requests.Response()

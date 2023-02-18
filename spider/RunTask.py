@@ -160,18 +160,52 @@ def get_alexa_token(html):
 
 @Singleton
 class SpiderTools:
+    #
+    # @staticmethod
+    # def spider01(ip):
+    #     """
+    #     ip查询接口
+    #     :param ip:
+    #     :return:
+    #     """
+    #     url = "https://webscan.cc/"
+    #     data = {
+    #         "domain": ip
+    #     }
+    #     a = defaultdict(list)
+    #     response = Requests().client(url, method="POST", data=data).SelectorText
+    #     address = response.css("body > div > div > div.inner > div.module.mod-intro > div > h2::text").extract_first()
+    #     if address != "The URL you entered does not meet the specification. Please check and try again!":
+    #         a['address'].append(address)
+    #         print(a)
+    #         return a
+
 
     @staticmethod
     def spider01(ip):
-        url = "https://webscan.cc/"
-        data = {
-            "domain": ip
-        }
+        """
+        ip查询接口
+        :param ip:
+        :return:
+        """
+        # url = "https://webscan.cc/"
+        # data = {
+        #     "domain": ip
+        # }
+        # a = defaultdict(list)
+        # response = Requests().client(url, method="POST", data=data).SelectorText
+        # address = response.css("body > div > div > div.inner > div.module.mod-intro > div > h2::text").extract_first()
+        # if address != "The URL you entered does not meet the specification. Please check and try again!":
+        #     a['address'].append(address)
+        #     return a
+        url = "https://sp0.baidu.com/8aQDcjqpAAV3otqbppnN2DJv/api/php?query={ip}&co=&resource_id=6006".format(ip=ip)
         a = defaultdict(list)
-        response = Requests().client(url, method="POST", data=data).SelectorText
-        address = response.css("body > div > div > div.inner > div.module.mod-intro > div > h2::text").extract_first()
-        if address != "The URL you entered does not meet the specification. Please check and try again!":
+        response = Requests().client(url, method="GET").json
+        data = response.get("data")[0]
+        address = data.get("location")
+        if address:
             a['address'].append(address)
+            # print(a) # defaultdict(<class 'list'>, {'address': ['北京市北京市 联通']})
             return a
 
     @staticmethod
@@ -274,6 +308,7 @@ def ip_domain_address_record_seo(ip):
 
         if result.get("domain_list"):
             for domain in result.get("domain_list"):
+                # print(address[0][0:2])
                 if quote(address[0][0:2]) in ADDRESS:
                     result['record'] = domain_record(domain)
                 else:
@@ -290,12 +325,13 @@ class ThreadDomain(Thread):
 
     def run(self) -> None:
         while True:
-            if self.domain_queue.empty():
-                break
             domain = self.domain_queue.get()
+            # print(domain)
             a = domain_record(domain)
             l.info(f"{self.getName()} - {a}")
             aaaascv(a)
+            if self.domain_queue.empty():
+                break
 
 
 class ThreadIp(Thread):
@@ -308,16 +344,17 @@ class ThreadIp(Thread):
     def run(self) -> None:
         while True:
             ip = self.ip_queue.get()
+            # print(ip)
             a = ip_domain_address_record_seo(ip)
-            if a:
-                l.info(f"{self.getName()} - {a}")
-                aaaascv(a)
-                if self.ip_queue.empty():
-                    break
+            # print(a)
+            l.info(f"{self.getName()}-{a}")
+            aaaascv(a)
+            if self.ip_queue.empty():
+                break
 
 
 def aaaascv(data):
-    with open('./result.csv', 'a', newline='') as csv_file:
+    with open('./result.csv', 'a+', newline='') as csv_file:
         writer = csv.writer(csv_file)
         writer.writerow(data.values())
 
@@ -339,5 +376,3 @@ def main(file):
     for task in tasks:
         task.start()
         task.join()
-
-# 你等会 啊 我电脑试试看
